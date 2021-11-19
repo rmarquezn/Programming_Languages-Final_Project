@@ -14,3 +14,5 @@ The project will be developed in [Elixir](https://elixir-lang.org/)
 
 1. File I/O
 2. Encrytpion
+
+## Detailed Description
