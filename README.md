@@ -1,6 +1,6 @@
 # Feistel Cipher
 
-## Team
+## Members
 * Vicente Santamaría - A01421801
 * Rodrigo Marquez - 
 
