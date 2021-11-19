@@ -21,3 +21,9 @@ The project will be developed in [Racket](https://racket-lang.org/)
 * Convert the Plain Text to Ascii and then 8-bit binary format. 
 * Divide the binary Plain Text string into two halves: left half (L1)and right half (R1) 
 * Generate a random binary keys (K1 and K2) of length equal to the half the length of the Plain Text for the two rounds.
+
+## Explanation
+We expecto our program to encrypt and decrypt files using the feistel cipher so we can learn how complex it is to implement an encryption algorithm in Racket.
+
+## References
+[GeeksforGeeks Feistel Cipher](https://www.geeksforgeeks.org/feistel-cipher/)
