@@ -9,3 +9,8 @@ As the final project, we will be implementing a feistel cipher algorithm in elix
 
 ## Lenguage
 The project will be developed in [Elixir](https://elixir-lang.org/)
+
+## Topics
+
+1. File I/O
+2. Encrytpion
