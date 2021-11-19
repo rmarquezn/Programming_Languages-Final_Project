@@ -2,7 +2,7 @@
 
 ## Members
 * Vicente Santamaría - A01421801
-* Rodrigo Marquez - 
+* Rodrigo Marquez - A01022943
 
 ## Description
 As the final project, we will be implementing a feistel cipher algorithm in Racket, which will take a message from a file and return another file with the encrypted message using 2 rounds of the feistel cipher.
