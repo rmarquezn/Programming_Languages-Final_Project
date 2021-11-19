@@ -5,10 +5,11 @@
 * Rodrigo Marquez - 
 
 ## Description
-As the final project, we will be implementing a feistel cipher algorithm in elixir, which will take a message from a file and return another file with the encrypted message using 2 rounds of the feistel cipher.
+As the final project, we will be implementing a feistel cipher algorithm in Racket, which will take a message from a file and return another file with the encrypted message using 2 rounds of the feistel cipher.
+Feistel Cipher model is a structure or a design used to develop many block ciphers such as DES. Feistel cipher may have invertible, non-invertible and self invertible components in its design. Same encryption as well as decryption algorithm is used. A separate key is used for each round. However same round keys are used for encryption as well as decryption.
 
 ## Lenguage
-The project will be developed in [Elixir](https://elixir-lang.org/)
+The project will be developed in [Racket](https://racket-lang.org/)
 
 ## Topics
 
@@ -16,3 +17,7 @@ The project will be developed in [Elixir](https://elixir-lang.org/)
 2. Encrytpion
 
 ## Detailed Description
+* Create a list of all the Plain Text characters. 
+* Convert the Plain Text to Ascii and then 8-bit binary format. 
+* Divide the binary Plain Text string into two halves: left half (L1)and right half (R1) 
+* Generate a random binary keys (K1 and K2) of length equal to the half the length of the Plain Text for the two rounds.
