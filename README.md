@@ -29,6 +29,7 @@ The project will be developed in [Racket](https://racket-lang.org/)
 ## Example
 input plaintext: 011110100001  
 function: f(a,b,c)=c,a,b  
+
 ### Encryption
 
 **Step 1:** *Divide plaintext in half (L0 and R0)*  
@@ -51,13 +52,32 @@ R2 = 100001  XOR 100001 = 000000
 
 **Step 6:** *Encrypted plaintext = L2 + R2*  
 Encrypted plaintext = 001010000000  
+
 ### Decryption
 
-
+**Step 1:** *Divide back the encrypted plaintext (L2, R2)*  
+L2 = 001010  
+R2 = 000000  
+  
+**Step 2:** *R1 = L2, L1 =  R2 XOR E2*  
+R1 = 001010  
+L1 = 000000 XOR 100001 = 100001  
+  
+**Step 3:** *R0 = L1, L0 = R1 XOR E1*  
+R0 = 100001
+L0 = 001010 XOR 010100 = 011110  
+  
+**Step 4:** *Decrypted plaintext = L0 + R0 = Input plaintext*  
+Decrypted plaintext = 011110100001  
+  
+*In this example we produce E using a simple function whose only parameter is R, in our implementation we will be creating a function which takes R as the first parameter and makes use of a key to which oonly the user has access to as a second parameter to produce E.*
 
 ## Explanation
 We expect our program to encrypt and decrypt files using the feistel cipher so we can learn how complex it is to implement an encryption algorithm in Racket.
 
 ## References
 [GeeksforGeeks Feistel Cipher](https://www.geeksforgeeks.org/feistel-cipher/)  
-[Tutorialspoint Feistel Block Cipher](https://www.tutorialspoint.com/cryptography/feistel_block_cipher.htm)
+[Tutorialspoint Feistel Block Cipher](https://www.tutorialspoint.com/cryptography/feistel_block_cipher.htm)  
+[Project Code Mastery Feistel Encoding (Video)](https://www.youtube.com/watch?v=fenzYD2J9vs)  
+[Project Code Mastery Feistel Decoding (Video)](https://www.youtube.com/watch?v=shEr8AcIqvI)  
+[Computerphile Feistel Cipher (Video)](https://www.youtube.com/watch?v=FGhj3CGxl8I)
