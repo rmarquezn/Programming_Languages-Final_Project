@@ -5,7 +5,7 @@
 * Rodrigo Marquez - A01022943
 
 ## Description
-As the final project, we will be implementing a feistel cipher algorithm in Racket, which will take a message from a file and a key and return another file with the encrypted message using 2 rounds of the feistel cipher, then it will ask the user for the key to decrypt the message.
+As the final project, we will be implementing a feistel cipher algorithm in Racket, which will take a message from a file and a key and return another file with the encrypted message using 2 rounds of the feistel cipher, then it will ask the user for the key to decrypt the message.  
 Feistel Cipher model is a structure or a design used to develop many block ciphers such as DES. Feistel cipher may have invertible, non-invertible and self invertible components in its design. Same encryption as well as decryption algorithm is used. A separate key is used for each round. However same round keys are used for encryption as well as decryption.
 
 ## Language
@@ -27,9 +27,37 @@ The project will be developed in [Racket](https://racket-lang.org/)
 * Once the last round is completed then the two sub blocks, ‘R’ and ‘L’ are concatenated in this order to form the ciphertext block.
 
 ## Example
+input plaintext: 011110100001  
+function: f(a,b,c)=c,a,b  
+### Encryption
+
+**Step 1:** *Divide plaintext in half (L0 and R0)*  
+L0 = 011110  
+R0 = 100001  
+  
+**Step 2:** *E1 = f(R0)*  
+E1 = f(100) + f(001) = 010100  
+  
+**Step 3:** *L1 = R0, R1 = L0 XOR E1*  
+L1 = 100001  
+R1 = 011110 XOR 010100 = 001010  
+  
+**Step 4:** *E2 = f(R1)*  
+E2 =  f(001) + f(010) = 100001  
+  
+**Step 5:** *L2 = R1, R2 = L1 XOR E2*  
+L2 = 001010  
+R2 = 100001  XOR 100001 = 000000  
+
+**Step 6:** *Encrypted plaintext = L2 + R2*  
+Encrypted plaintext = 001010000000  
+### Decryption
+
+
 
 ## Explanation
 We expect our program to encrypt and decrypt files using the feistel cipher so we can learn how complex it is to implement an encryption algorithm in Racket.
 
 ## References
-[GeeksforGeeks Feistel Cipher](https://www.geeksforgeeks.org/feistel-cipher/)
+[GeeksforGeeks Feistel Cipher](https://www.geeksforgeeks.org/feistel-cipher/)  
+[Tutorialspoint Feistel Block Cipher](https://www.tutorialspoint.com/cryptography/feistel_block_cipher.htm)
