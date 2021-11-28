@@ -72,7 +72,9 @@ Decrypted plaintext = 011110100001
   
 *In this example we produce E using a simple function whose only parameter is R, in our implementation we will be creating a function which takes R as the first parameter and makes use of a key to which oonly the user has access to as a second parameter to produce E.*  
 
-![Example Diagram](./feistel.png)
+![Example Diagram](docs/feistel.png)  
+![Encryption Example](docs/encripcionTexto.jpg)
+![Desencripcion Texto](docs/descencripcionTexto.jpg)
 
 ## Explanation
 We expect our program to encrypt and decrypt files using the feistel cipher so we can learn how complex it is to implement an encryption algorithm in Racket.
