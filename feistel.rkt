@@ -98,7 +98,7 @@
 )
 
 ;;; Step 4
-;;; Se obtienen L1 y 2 y R1 y 2
+;;; Se obtienen L1, L2 y R1, R2
 ;;; Ln = Rn-1
 ;;; Rn = Ln-1 XOR En
 ;;; Se concatenan L2 y R2 para guardar el mensaje encriptado en un archivo de
@@ -158,7 +158,8 @@
     )
 )
 
-
+;;; Obtenemos E2 y E1
+;;; En = Ln XOR llave
 (define (descrygetE R L llave vueltas contVueltas [E ""] [accL 0] [accLlave 0])
     (define nL (string-length L))
     (define llaveBits (string-join (bitsLlave (string->list llave)) ""))
@@ -176,6 +177,9 @@
     )
 )
 
+;;; Obtenemos L1, L0 y R1, R0
+;;; Ln = Rn+1 XOR En+1
+;;; Rn = Ln+1
 (define (descrygetL R L llave vueltas E contVueltas [L1 ""] [accL1 0])
     (define nR (string-length R))
 
