@@ -4,17 +4,20 @@
 
 #lang racket
 
+;;; Se pide el nombre del archivo que contiene el mensaje con extensión  ".txt"
+;;; y la llave del usuario.
 (define (encriptarMsg file llave)
     (define in (open-input-file file))
     (msgToList (read-line in) llave 2)
 )
 
+;;; Convierte el mensaje a una lista de caracteres
 (define (msgToList msg llave vueltas)
     (listToInt (string->list msg) llave vueltas)
 )
 
+;;; Convierte cada caracter a su equivalente en entero con "char->integer"
 (define (listToInt msg llave vueltas [msgBits '()] [acc 0])
-
     (if (< acc (length msg))
         (if (< (string-length (lstToBits (char->integer (list-ref msg acc)))) 7)
             (listToInt msg llave vueltas (append msgBits (list 
@@ -27,6 +30,7 @@
     )
 )
 
+;;; Conovierte la llave a una lista con su equivalente en binario
 (define (bitsLlave lstLlave [lstLlaveBits '()] [acc 0])
     (if (< acc (length lstLlave))
         (bitsLlave lstLlave (append lstLlaveBits (list (lstToBits (char->integer 
@@ -35,6 +39,7 @@
     )
 )
 
+;;; Convierte cada elemento de la llave a binario
 (define (lstToBits n)
     (cond 
         [(< n 2) (number->string n)]
@@ -44,6 +49,7 @@
     )
 )
 
+;;; Se usa para convertir un numero entero a su equivalente binario
 (define (bin->dec n) 
     (if (zero? n)
         n
@@ -51,8 +57,10 @@
     )
 )
 
+;;; Divide el mensaje en 2 partes (izquierda y derecha)
 (define (divideMsg msg llave vueltas [L0 '()] [R0 '()] [acc 0]) ;;Step 2
     (define n (length msg))
+
     (if (< acc n)
         (if (= (modulo n 2) 0)
             (if (< acc (/ n 2))
@@ -61,13 +69,16 @@
                 (divideMsg msg llave vueltas L0 (append R0 
                 (list (list-ref msg acc))) (+ acc 1))
             )
+            ; Si el mensaje es impar se agrega un 0 al final para hacer la
+            ; división equitativa
             (divideMsg (append msg (list "0000000")) llave vueltas)
         )
         (getE1 (string-join L0 "") (string-join R0 "") llave vueltas 1)
     )     
 )
 
-;Step 3
+;;; Step 3
+;;; Se obtienen E1 y E2 (En = Rn-1 XOR llave)
 (define (getE1 L0 R0 llave vueltas contVueltas [E1 ""] [accR0 0] [accLlave 0])
     (define nR0 (string-length R0))
     (define llaveBits (string-join (bitsLlave (string->list llave)) ""))
@@ -86,12 +97,18 @@
     )
 )
 
-;Step 4
+;;; Step 4
+;;; Se obtienen L1 y 2 y R1 y 2
+;;; Ln = Rn-1
+;;; Rn = Ln-1 XOR En
+;;; Se concatenan L2 y R2 para guardar el mensaje encriptado en un archivo de
+;;; texto
 (define (getR1 L0 R0 llave vueltas E1 contVueltas [R1 ""] [accL0 0] [R2 ""] 
 [accR2 0]) 
     (define nL0 (string-length L0))
     (define nE1 (string-length E1))
     (define nR2 (string-length R0))
+
     (if (< accL0 nL0)
         (getR1 L0 R0 llave vueltas E1 (+ contVueltas 1) (string-append R1 
         (number->string (bitwise-xor (char->integer (string-ref L0 accL0)) 
@@ -100,25 +117,25 @@
             (display-to-file (string-append R0 R1) "encriptado.txt" 
             #:exists 'truncate)
             (getE1 R0 R1 llave vueltas (+ 1 (- contVueltas nL0 )))
-        ) 
-        
+        )
     )
-
     (if (and (= vueltas (- contVueltas nL0 )) (= accL0 nL0))
         (display "¡Mensaje encriptado correctamente!")
         (display "")
     )
-    
 )
 
-
+;;; Se piden el nombre del archivo que contiene el mensaje encriptado y la
+;;; llave del usuario
 (define (desencriptarMsg file llave)
     (define in (open-input-file file))
     (divideMsgEncry (string->list (read-line in)) llave 2)
 )
 
+;;; Se divide el mensaje a la mitad
 (define (divideMsgEncry msgEncry llave vueltas [L '()] [R '()] [acc 0])
     (define n (length msgEncry))
+
     (if (< acc n)
         (if (< acc (/ n 2))
             (divideMsgEncry msgEncry llave vueltas (append L (list 
@@ -130,6 +147,7 @@
     )
 )
 
+;;; Convierte los caracteres a string y los une
 (define (process lst)
     (apply string-append                ; append all the strings
         (map (lambda (e)                ; create a list of strings
@@ -145,6 +163,7 @@
     (define nL (string-length L))
     (define llaveBits (string-join (bitsLlave (string->list llave)) ""))
     (define nLlave (string-length llaveBits))
+
     (if (= accLlave nLlave)
         (descrygetE R L llave vueltas contVueltas E accL 0)
         (if (< accL nL)
@@ -159,6 +178,7 @@
 
 (define (descrygetL R L llave vueltas E contVueltas [L1 ""] [accL1 0])
     (define nR (string-length R))
+
     (if (< accL1 nR)
         (descrygetL R L llave vueltas E (+ 1 contVueltas) (string-append L1 
         (number->string (bitwise-xor (char->integer (string-ref R accL1)) 
@@ -170,8 +190,12 @@
     )
 )
 
+;;; Separa los bits en bloques de 7 para después convertirlos a su equivalente
+;;; entero y luego a caracter para después concatenar los caracteres y guardar
+;;; el mensaje desencriptado en un nuevo archivo
 (define (splitBits stringbits [acc 0] [msgDesencriptado ""] [bitsAux ""])
     (define n (string-length stringbits))
+
     (if (< acc n)
         (if (and (= (modulo acc 7) 0) (> acc 0))
             (splitBits stringbits (+ 1 acc) (string-append msgDesencriptado 
@@ -185,4 +209,3 @@
         (integer->char  (bin->dec (string->number bitsAux))))))
     )
 )
-
