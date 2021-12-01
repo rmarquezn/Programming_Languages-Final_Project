@@ -1,3 +1,6 @@
+;;; Feistel Cipher
+;;; Rodrigo Márquez - A01022943
+;;; Vicente Santamaría - A01421801
 
 #lang racket
 
@@ -5,9 +8,11 @@
     (define in (open-input-file file))
     (msgToList (read-line in) llave 2)
 )
+
 (define (msgToList msg llave vueltas)
     (listToInt (string->list msg) llave vueltas)
 )
+
 (define (listToInt msg llave vueltas [msgBits '()] [acc 0])
 
     (if (< acc (length msg))
@@ -21,6 +26,7 @@
         (divideMsg msgBits llave vueltas)
     )
 )
+
 (define (bitsLlave lstLlave [lstLlaveBits '()] [acc 0])
     (if (< acc (length lstLlave))
         (bitsLlave lstLlave (append lstLlaveBits (list (lstToBits (char->integer 
@@ -28,6 +34,7 @@
         lstLlaveBits
     )
 )
+
 (define (lstToBits n)
     (cond 
         [(< n 2) (number->string n)]
@@ -36,6 +43,7 @@
     
     )
 )
+
 (define (bin->dec n) 
     (if (zero? n)
         n
@@ -67,12 +75,13 @@
 
     (if (= accLlave nLlave)
         (getE1 L0 R0 llave vueltas contVueltas E1 accR0 0)
-         (if (< accR0 nR0)
-            (getE1 L0 R0 llave vueltas contVueltas (string-append E1 
-            (number->string (bitwise-xor (char->integer (string-ref R0 accR0)) 
-            (char->integer (string-ref llaveBits accLlave))))) (+ accR0 1) 
-            (+ accLlave 1))
-            (getR1 L0 R0 llave vueltas E1 contVueltas)
+            (if (< accR0 nR0)
+                (getE1 L0 R0 llave vueltas contVueltas (string-append E1 
+                (number->string (bitwise-xor (char->integer
+                (string-ref R0 accR0)) 
+                (char->integer (string-ref llaveBits accLlave))))) (+ accR0 1) 
+                (+ accLlave 1))
+                (getR1 L0 R0 llave vueltas E1 contVueltas)
         )        
     )
 )
@@ -122,12 +131,14 @@
 )
 
 (define (process lst)
-  (apply string-append                   ; append all the strings
-         (map (lambda (e)                ; create a list of strings
-                (if (char? e)            ; if it's a char
-                    (string e)           ; convert it to string
-                    (number->string e))) ; same if it's a number
-              lst)))
+    (apply string-append                ; append all the strings
+        (map (lambda (e)                ; create a list of strings
+            (if (char? e)               ; if it's a char
+                (string e)              ; convert it to string
+                (number->string e)))    ; same if it's a number
+                lst)
+    )
+)
 
 
 (define (descrygetE R L llave vueltas contVueltas [E ""] [accL 0] [accLlave 0])
