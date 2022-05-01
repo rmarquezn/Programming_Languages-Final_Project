@@ -8,6 +8,8 @@
 As the final project, we will be implementing a feistel cipher algorithm in Racket, which will take a message from a file and a key and return another file with the encrypted message using 2 rounds of the feistel cipher, then it will ask the user for the key to decrypt the message.  
 Feistel Cipher model is a structure or a design used to develop many block ciphers such as DES. Feistel cipher may have invertible, non-invertible and self invertible components in its design. Same encryption as well as decryption algorithm is used. A separate key is used for each round. However same round keys are used for encryption as well as decryption.
 
+For this assignment we will upgrade our code to include as many subjects seen in the class as we can so we can make our algorithm work as efficiently as possible.
+
 ## Language
 The project will be developed in [Racket](https://racket-lang.org/)
 
