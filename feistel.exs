@@ -16,6 +16,7 @@ defmodule Feistel do
     |> Enum.map(&Enum.split(&1, ceil(length(&1) / 2)))
     # Convierte cada tupla en una lista
     |> Enum.map(&Tuple.to_list(&1))
+    # Paralelizar?
     |> Enum.map(&feistelRound(&1))
 
     # |> encriptar(&1) # Encripta cada renglón (sublista)
@@ -33,6 +34,8 @@ defmodule Feistel do
     else
       IO.puts("par")
       # Añadir caracter a r0 y correr feistel
+      r0 = r0 ++ 'X'
+      IO.puts(r0)
     end
 
     IO.puts("left")
