@@ -16,23 +16,32 @@ defmodule Feistel do
   Asks for the input file, the key and the iterations of the cipher
   """
   def encriptarMsg(file, key, vueltas) do
-    msgBits = file |> File.read!() |> stringToBinary()
-    keyBits = stringToBinary(key)
-    msgBits |> msgSplit()
-  end
+    msgList = file |> File.read!() |> msgSplit()
+    # keyBits = IO.inspect(key, binaries: :as_binaries)
 
-  defp stringToBinary(str) do
-    # Converts the string into an integer bitstring
-    # "msg" <> <<0>> , RETURNS a BITSTRING
-    str
-    |> IO.inspect(binaries: :as_binaries)
+    l0 = hd(msgList)
+    r0 = tl(msgList)
+    IO.puts("okey")
+    IO.puts()
   end
 
   defp msgSplit(lst) do
-    if rem(String.length(lst), 2) === 1 do
-      IO.puts("impar")
+    list = lst
+    size = byte_size(lst)
+    # impar
+    if rem(size, 2) === 1 do
+      # Cambiar a 32
+      list = lst <> <<72>>
+      # IO.inspect(list, binaries: :as_binaries)
+      size = byte_size(list)
+      IO.puts(list)
+      left = binary_part(list, 0, div(size, 2))
+      right = binary_part(list, div(size, 2), div(size, 2))
+      [left, right]
     else
-      IO.puts("par")
+      left = binary_part(list, 0, div(size, 2))
+      right = binary_part(list, div(size, 2), div(size, 2))
+      [left, right]
     end
   end
 
