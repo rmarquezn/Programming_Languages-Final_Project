@@ -17,27 +17,30 @@ defmodule Feistel do
     # Convierte cada tupla en una lista
     |> Enum.map(&Tuple.to_list(&1))
     # Paralelizar?
-    |> Enum.map(&feistelRound(&1))
+    |> Enum.map(&splitMsg(&1))
 
     # |> encriptar(&1) # Encripta cada renglón (sublista)
 
     IO.puts("encrypt ok")
   end
 
-  defp feistelRound(line) do
-    l0 = Enum.at(line, 0)
-    r0 = Enum.at(line, 1)
+  defp splitMsg(line) do
+    l = Enum.at(line, 0)
+    r = Enum.at(line, 1)
 
-    if length(l0) === length(r0) do
+    if length(l) === length(r) do
       IO.puts("impar")
       # Correr feistel así
+      feistelRound(l, r)
     else
       IO.puts("par")
-      # Añadir caracter a r0 y correr feistel
-      r0 = r0 ++ 'X'
-      IO.puts(r0)
+      # Añadir caracter a r y correr feistel
+      r = 'X' ++ r
+      feistelRound(l, r)
     end
+  end
 
+  defp feistelRound(l0, r0) do
     IO.puts("left")
     IO.puts(length(l0))
     IO.puts(l0)
