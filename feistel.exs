@@ -27,6 +27,14 @@ defmodule Feistel do
     l0 = Enum.at(line, 0)
     r0 = Enum.at(line, 1)
 
+    if length(l0) === length(r0) do
+      IO.puts("impar")
+      # Correr feistel así
+    else
+      IO.puts("par")
+      # Añadir caracter a r0 y correr feistel
+    end
+
     IO.puts("left")
     IO.puts(length(l0))
     IO.puts(l0)
