@@ -21,53 +21,67 @@ defmodule Feistel do
     # Paralelizar?
     |> Enum.map(&splitMsg(&1, to_charlist(key)))
 
-    # |> encriptar(&1) # Encripta cada renglón (sublista)
-
-    IO.puts("encrypt ok")
+    # IO.puts("encrypt ok")
   end
 
   defp splitMsg(line, k) do
+    # Divide el mensaje en 2 mitades
     l = Enum.at(line, 0)
     r = Enum.at(line, 1)
 
     if length(l) === length(r) do
-      # Correr feistel así
+      # Si las mitades son del mismo tamaño se envían a encriptar
       feistelRound(l, r, k)
     else
-      # Añadir caracter a r y correr feistel
-      feistelRound(l, '0' ++ r, k)
+      # Si una mitad es mas corta se le añade un caracter y
+      # luego se mandan a encriptar
+      feistelRound(l, r ++ 'z', k)
     end
   end
 
   defp feistelRound(l0, r0, llave) do
-    xor(r0, llave)
-    |> IO.inspect()
-    |> prueba(&1, l0)
+    # Se corren 2 rondas de cifrado
+    e1 = xor(r0, llave)
+    r1 = xor(l0, e1)
+    l1 = r0
+    e2 = xor(r1, llave)
+    r2 = xor(l1, e2)
+    l2 = r1
 
-    # e1 = xor(r0, llave) |> to_charlist()
-    # r1 = xor(l0, e1) |> IO.puts()
-    # l1 = r0 |> IO.puts()
-    # e2 = xor(r1, llave)
-    # r2 = xor(l1, e2)
-    # l2 = r1
+    IO.puts("mensaje encriptado:")
+
+    encMsg = l2 ++ r2
+
+    new_data = IO.inspect(encMsg, charlists: :as_lists)
+    # |> Enum.map(&Enum.join(&1, ","))
+    # |> IO.inspect()
+    # IO.puts(new_data)
+    IO.puts(encMsg)
+
+    # File.write("encriptado.txt", new_data, charlists: :as_lists)
+
+    # encMsg = l2 ++ r2
+    Enum.map(IO.inspect(encMsg, encMsg: :as_lists), fn x ->
+      File.write("encriptado.txt", to_string(x))
+    end)
+
     # IO.puts(l2 ++ r2)
+    # |> IO.write("encriptado.txt", encMsg)
+
+    # IO.inspect(encMsg, charlists: :as_lists)
+    # File.write("encriptado.txt", msg)
   end
 
   defp xor(a, b) do
     for x <- 0..(length(a) - 1) do
-      # IO.puts(bxor(Enum.at(a, x), Enum.at(b, rem(x, length(b)))))
-      to_charlist(bxor(Enum.at(a, x), Enum.at(b, rem(x, length(b)))))
+      bxor(Enum.at(a, x), Enum.at(b, rem(x, length(b))))
     end
-  end
-
-  defp prueba(a, b) do
-    IO.puts(b)
   end
 
   @doc """
   Función que desencripta un archivo encriptado
   """
-  def decrypt do
+  def decrypt(file, key) do
     0
   end
 end
