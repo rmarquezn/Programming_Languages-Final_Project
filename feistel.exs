@@ -31,43 +31,37 @@ defmodule Feistel do
     r = Enum.at(line, 1)
 
     if length(l) === length(r) do
-      IO.puts("par")
       # Correr feistel así
       feistelRound(l, r, k)
     else
-      IO.puts("impar")
       # Añadir caracter a r y correr feistel
       feistelRound(l, '0' ++ r, k)
     end
   end
 
   defp feistelRound(l0, r0, llave) do
-    # IO.puts("left")
-    # IO.puts(length(l0))
-    # IO.puts(l0)
-    # IO.puts("right")
-    # IO.puts(length(r0))
-    # IO.puts(r0)
-    # IO.puts("llave")
-    # IO.puts(length(llave))
+    xor(r0, llave)
+    |> IO.inspect()
+    |> prueba(&1, l0)
 
-    # for n <- [1, 2, 3, 4, 5], do: IO.puts(n * 2)
+    # e1 = xor(r0, llave) |> to_charlist()
+    # r1 = xor(l0, e1) |> IO.puts()
+    # l1 = r0 |> IO.puts()
+    # e2 = xor(r1, llave)
+    # r2 = xor(l1, e2)
+    # l2 = r1
+    # IO.puts(l2 ++ r2)
+  end
 
-    Enum.each(0..(length(r0) - 1), fn x ->
-      bxor(Enum.at(r0, x), Enum.at(llave, rem(x, length(llave))))
-    end)
+  defp xor(a, b) do
+    for x <- 0..(length(a) - 1) do
+      # IO.puts(bxor(Enum.at(a, x), Enum.at(b, rem(x, length(b)))))
+      to_charlist(bxor(Enum.at(a, x), Enum.at(b, rem(x, length(b)))))
+    end
+  end
 
-    # for (i,i=<r0.length,i++){
-    #   xor(r0[i], key[i mod key.length])
-    #                         10
-    #                         11 mod 10 = 1
-    #                         msg mide 20
-    #                         key mide 10
-    #                         i 1-10
-    #                         i 11-20 mg i,  key 11 mod 10 = 1 12mod10 2
-    # }
-
-    # bxor(a,b)
+  defp prueba(a, b) do
+    IO.puts(b)
   end
 
   @doc """
