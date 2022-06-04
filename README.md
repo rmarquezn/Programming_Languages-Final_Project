@@ -11,7 +11,7 @@ Feistel Cipher model is a structure or a design used to develop many block ciphe
 For this assignment we will upgrade our code to include as many subjects seen in the class as we can so we can make our algorithm work as efficiently as possible.
 
 ## Language
-The project will be developed in [Racket](https://racket-lang.org/)
+The project will be developed in [Elixir](https://elixir-lang.org/)
 
 ## Topics
 1. File I/O
