@@ -12,6 +12,8 @@ defmodule Feistel do
     file
     # Leer el archivo
     |> File.stream!()
+    # Quita los saltos de linea
+    |> Enum.map(&String.trim/1)
     # Convierte cada renglón en charlist
     |> Enum.map(&to_charlist(&1))
     # Divide cada renglón en 2
@@ -82,8 +84,15 @@ defmodule Feistel do
   Función que desencripta un archivo encriptado
   """
   def decrypt(file, key) do
-    0
+    IO.puts("decrypting...")
+
+    file
+    |> File.stream!()
+    |> Enum.map(&String.trim/1)
+    # |> Enum.map(&(Regex.run(~r"\w+(\.\w+)*@\w+(\.\w+)*\.\w{2,4}", &1)))
+    |> IO.inspect()
   end
 end
 
 Feistel.encrypt("prueba.txt", "llave")
+Feistel.decrypt("pruebaEncriptado.txt", "llave")
