@@ -62,7 +62,8 @@ defmodule Feistel do
 
     # File.write("encriptado.txt", new_data, charlists: :as_lists)
 
-    # encMsg = l2 ++ r2
+    encMsg = l2 ++ r2
+
     Enum.map(IO.inspect(encMsg, encMsg: :as_lists), fn x ->
       File.write("encriptado.txt", to_string(x))
     end)
@@ -71,7 +72,7 @@ defmodule Feistel do
     # |> IO.write("encriptado.txt", encMsg)
 
     # IO.inspect(encMsg, charlists: :as_lists)
-    # File.write("encriptado.txt", msg)
+    # File.write("encriptado.txt", encMsg)
   end
 
   defp xor(a, b) do
