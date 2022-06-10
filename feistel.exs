@@ -10,7 +10,7 @@ defmodule Feistel do
   """
   def encrypt(file, key) do
     file
-    # Leer el archivo
+    # Lee el archivo
     |> File.stream!()
     # Quita los saltos de linea
     |> Enum.map(&String.trim/1)
@@ -88,10 +88,14 @@ defmodule Feistel do
     IO.puts("decrypting...")
 
     file
+    # Leer el archivo
     |> File.stream!()
+    # Quita los saltos de linea
     |> Enum.map(&String.trim/1)
-    # |> Enum.map(&(Regex.run(~r"\w+(\.\w+)*@\w+(\.\w+)*\.\w{2,4}", &1)))
+    # Convertir cada elemento a charlist  FALTA
     |> IO.inspect()
+
+    # |> Enum.map(&(Regex.run(~r"\w+(\.\w+)*@\w+(\.\w+)*\.\w{2,4}", &1)))
   end
 end
 
