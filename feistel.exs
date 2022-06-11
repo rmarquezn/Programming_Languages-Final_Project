@@ -92,11 +92,25 @@ defmodule Feistel do
     |> File.stream!()
     # Quita los saltos de linea
     |> Enum.map(&String.trim/1)
-    # Convertir cada elemento a charlist
-    |> Enum.map(&String.to_charlist/1)
-    |> IO.inspect()
+    # Quita los brackets
+    |> Enum.map(&String.trim(&1, "["))
+    |> Enum.map(&String.trim(&1, "]"))
+    # Convierte cada renglón a una lista de enteros
+    |> Enum.map(&String.split(&1, ", "))
+    # Divide cada elemento a la mitad
+    |> Enum.map(&Enum.split(&1, floor(length(&1) / 2)))
+    # Convierte cada tupla en lista
+    |> Enum.map(&Tuple.to_list(&1))
+    |> Enum.map(&decryptRound(&1, key))
+  end
 
-    # |> Enum.map(&(Regex.run(~r"\w+(\.\w+)*@\w+(\.\w+)*\.\w{2,4}", &1)))
+  defp decryptRound(line, key) do
+    l2 = Enum.at(line, 0)
+    r2 = Enum.at(line, 1)
+
+    IO.inspect(l2)
+    IO.inspect(r2)
+    IO.inspect(key)
   end
 end
 
