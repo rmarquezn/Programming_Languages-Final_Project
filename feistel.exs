@@ -53,20 +53,34 @@ defmodule Feistel do
     IO.puts("mensaje encriptado:")
 
     encMsg = l2 ++ r2
+    #IO.puts(encMsg)
 
     new_data = IO.inspect(encMsg, charlists: :as_lists)
     # |> Enum.map(&Enum.join(&1, ","))
     # |> IO.inspect()
     # IO.puts(new_data)
-    IO.puts(encMsg)
+    #IO.puts(encMsg)
 
     # File.write("encriptado.txt", new_data, charlists: :as_lists)
 
-    encMsg = l2 ++ r2
+
+    filewriter = fn (filename, data) ->
+      File.open(filename, [:append])
+      |> elem(1)
+      |> IO.binwrite(data)
+    end
+
 
     Enum.map(IO.inspect(encMsg, encMsg: :as_lists), fn x ->
-      File.write("encriptado.txt", to_string(x))
+      filewriter.("encriptado.txt", to_string(x))
     end)
+
+
+
+    encMsg = l2 ++ r2
+
+
+
 
     # IO.puts(l2 ++ r2)
     # |> IO.write("encriptado.txt", encMsg)
@@ -115,4 +129,4 @@ defmodule Feistel do
 end
 
 Feistel.encrypt("prueba.txt", "llave")
-Feistel.decrypt("pruebaEncriptado.txt", "llave")
+# Feistel.decrypt("pruebaEncriptado.txt", "llave")
