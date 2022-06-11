@@ -92,7 +92,8 @@ defmodule Feistel do
     |> File.stream!()
     # Quita los saltos de linea
     |> Enum.map(&String.trim/1)
-    # Convertir cada elemento a charlist  FALTA
+    # Convertir cada elemento a charlist
+    |> Enum.map(&String.to_charlist/1)
     |> IO.inspect()
 
     # |> Enum.map(&(Regex.run(~r"\w+(\.\w+)*@\w+(\.\w+)*\.\w{2,4}", &1)))
